@@ -29,6 +29,8 @@
 - .offsetHeight;
 - document.documentElement.clientHeight;
 - Math.round();
+- getBoundingClientRect()
+- console.warn();
 
 reset.css - обнуляет все стили (рекомендуется для игр и приложений)
 normalize.css - настраивает стили для различных браузеров (для страниц и лендингов)

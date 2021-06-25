@@ -32,6 +32,7 @@ getQuantityElements(200);
 
 function startGame() {
 	start.classList.add('hide');
+	gameArea.innerHTML = '';
 
 	for (let i = 0; i < getQuantityElements(100); i++) {
 		const roadLine = document.createElement('div');
@@ -53,8 +54,12 @@ function startGame() {
 		gameArea.appendChild(enemyCar);
 	}
 
+	setting.score = 0;
 	setting.start = true;
 	gameArea.appendChild(car);
+	car.style.left = gameArea.offsetWidth / 2 - car.offsetWidth / 2;
+	car.style.top = 'auto';
+	car.style.bottom = '10px';
 	setting.x = car.offsetLeft; // добавляет в конец setting{} элемент x: 125
 	// где 125 определено в style.css (left: 125px;)
 	setting.y = car.offsetTop;
@@ -63,6 +68,8 @@ function startGame() {
 
 function playGame() {
 	if (setting.start) {
+		setting.score += setting.speed;
+		score.innerHTML = 'SCORE<br>' + setting.score;
 		moveRoad();
 		moveEnemy();
 		if (keys.ArrowLeft && setting.x > 0) {
@@ -114,6 +121,21 @@ function moveRoad() {
 function moveEnemy() {
 	let enemyCars = document.querySelectorAll('.enemyCar');
 	enemyCars.forEach(function (enemyCar) {
+		let carRect = car.getBoundingClientRect();
+		let enemyCarRect = enemyCar.getBoundingClientRect();
+
+		if (
+			carRect.top <= enemyCarRect.bottom &&
+			carRect.right >= enemyCarRect.left &&
+			carRect.left <= enemyCarRect.right &&
+			carRect.bottom >= enemyCarRect.top
+		) {
+			setting.start = false;
+			console.warn('ДТП');
+			start.classList.remove('hide');
+			start.style.top = score.offsetHeight;
+		}
+
 		enemyCar.y += setting.speed / 2;
 		enemyCar.style.top = enemyCar.y + 'px';
 		if (enemyCar.y >= document.documentElement.clientHeight) {
