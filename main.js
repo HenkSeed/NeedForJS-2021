@@ -23,6 +23,13 @@ const setting = {
 	traffic: 3,
 };
 
+const enemyCars = [
+	'enemy_yellow.svg',
+	'enemy_black.png',
+	'enemy.png',
+	'enemy2.png',
+];
+
 function getQuantityElements(heightElement) {
 	return Math.round(document.documentElement.clientHeight / heightElement) + 1;
 }
@@ -49,8 +56,9 @@ function startGame() {
 		enemyCar.style.top = enemyCar.y + 'px';
 		enemyCar.style.left =
 			Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';
-		enemyCar.style.background =
-			'transparent url("./image/enemy_black.png") center / cover no-repeat';
+		enemyCar.style.background = `transparent url("./image/${
+			enemyCars[Math.floor(Math.random() * enemyCars.length)]
+		}") center / cover no-repeat`;
 		gameArea.appendChild(enemyCar);
 	}
 
