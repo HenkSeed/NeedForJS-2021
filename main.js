@@ -69,6 +69,7 @@ function startGame() {
 function playGame() {
 	if (setting.start) {
 		setting.score += setting.speed;
+		setting.speed = 3 + Math.floor(setting.score / 2000);
 		score.innerHTML = 'SCORE<br>' + setting.score;
 		moveRoad();
 		moveEnemy();
