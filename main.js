@@ -19,16 +19,17 @@ const keys = {
 const setting = {
 	start: false, // начало игры
 	score: 0,
-	speed: 3,
+	speed: 1,
 	traffic: 3,
 };
 
-const enemyCars = [
+const enemyCarsArr = [
 	'enemy_yellow.svg',
 	'enemy_black.png',
 	'enemy.png',
 	'enemy2.png',
 ];
+let randomCar = Math.floor(Math.random() * enemyCarsArr.length);
 
 function getQuantityElements(heightElement) {
 	return Math.round(document.documentElement.clientHeight / heightElement) + 1;
@@ -54,11 +55,15 @@ function startGame() {
 		enemyCar.classList.add('enemyCar');
 		enemyCar.y = -100 * setting.traffic * (i + 1);
 		enemyCar.style.top = enemyCar.y + 'px';
+
+		// const randomCar = Math.floor(Math.random() * enemyCarsArr.length);
+		// console.log(i, randomCar);
 		enemyCar.style.left =
 			Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';
-		enemyCar.style.background = `transparent url("./image/${
-			enemyCars[Math.floor(Math.random() * enemyCars.length)]
-		}") center / cover no-repeat`;
+		randomCar = Math.floor(Math.random() * enemyCarsArr.length);
+		changeCar(randomCar, enemyCar);
+		//===================================================================================
+		// enemyCar.style.background = `transparent url("./image/${enemyCarsArr[randomCar]}") center / cover no-repeat`;
 		gameArea.appendChild(enemyCar);
 	}
 
@@ -146,11 +151,23 @@ function moveEnemy() {
 		}
 
 		enemyCar.y += setting.speed / 2;
+		console.log(enemyCar.y);
 		enemyCar.style.top = enemyCar.y + 'px';
 		if (enemyCar.y >= document.documentElement.clientHeight) {
+			// Как только автомобиль "ушёл" с экрана, он перемещается на координату игрек (y)
+			// перед самым  верхним автомобилем на расстоянии от него, равном интервалу движения.
 			enemyCar.y = -100 * setting.traffic;
+			// debugger;
 			enemyCar.style.left =
 				Math.floor(Math.random() * (gameArea.offsetWidth - 50)) + 'px';
+
+			randomCar = Math.floor(Math.random() * enemyCarsArr.length);
+			changeCar(randomCar, enemyCar);
+			//===================================================================================
 		}
 	});
+}
+
+function changeCar(randomCar, enemyCar) {
+	enemyCar.style.background = `transparent url("./image/${enemyCarsArr[randomCar]}") center / cover no-repeat`;
 }
